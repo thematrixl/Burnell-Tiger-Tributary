@@ -34,9 +34,6 @@ const Applications = () => {
 
       // Append new data to the existing list instead of replacing it
       setApplications((prevApplications) => [...prevApplications, ...data]);
-
-      // Increment page for next request
-      if (data.length > 0) setPage((prevPage) => prevPage + 1);
     } catch (err) {
       console.error("Error fetching applications:", err);
       setError("Error fetching applications. Please try again later.");
@@ -46,8 +43,8 @@ const Applications = () => {
   };
 
   useEffect(() => {
-    if (page === 1) fetchApplications();
-  }, []);
+    fetchApplications();
+  }, [page]);
 
   return (
     <div className={styles.Applications}>
@@ -67,7 +64,7 @@ const Applications = () => {
           {hasMore && (
             <div className="flex justify-center">
               <Button
-                onClick={fetchApplications}
+                onClick={() => setPage((prev) => prev + 1)}
                 disabled={loading}
                 className="w-48"
               >
